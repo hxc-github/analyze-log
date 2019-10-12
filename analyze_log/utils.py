@@ -1,6 +1,24 @@
 # -*- coding: utf-8 -*-
-import utils
 import re
+
+
+def read_log_file(file_path):
+    """
+        读取日志文件
+    :param file_path: 日志文件路径
+    :return: 返回日志文件列表
+    """
+
+    # TODO: 异常处理未做
+    log_list = []
+    mode = 'r+'
+    with open(file_path, mode) as log_fp:
+        while True:
+            log_buf = log_fp.readline()
+            if not log_buf:
+                break
+            log_list.append(log_buf)
+    return log_list
 
 
 class Parser(object):
@@ -22,7 +40,7 @@ class Parser(object):
         """
 
         filter_logs = list()
-        log_list = utils.read_log_file(file_path)
+        log_list = read_log_file(file_path)
         for log in log_list:
             res = re.match(self.reg, log)
             if res:
@@ -38,11 +56,14 @@ class Parser(object):
         """
 
         log_list = []
-        filter_logs = self._filter_log(file_path)
-        type_list = ['css', 'js'] if file_types is None else file_types
-        for url_type in type_list:
-            for log in filter_logs:
-                if url_type in log.get('url', None):
-                    continue
+        filter_logs = self._parser_log(file_path)
+        filter_types = ['css', 'js'] if file_types is None else file_types
+        for log in filter_logs:
+            for filter_type in filter_types:
+                url = log.get('url')
+                if url.endswith(filter_type):
+                    break
+            if not url.endswith(filter_type):
                 log_list.append(log)
+
         return log_list
