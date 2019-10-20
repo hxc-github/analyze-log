@@ -13,7 +13,7 @@ class ReportBase(object):
 # 文章报表
 class ArticleReports(ReportBase):
 
-    def __init__(self, log_list):
+    def __init__(self, log_list, url):
         super(ArticleReports, self).__init__(log_list=log_list)
 
     def _collect_article_reports(self):
