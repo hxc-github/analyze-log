@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 import argparse
 import sys
+import logging
 
 from display import DisplayReport
+
+logging.basicConfig(level=logging.INFO,
+                    filename='analyze_log.log',
+                    filemode='a',
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')  # noqa: E501
 
 
 def init_args():
@@ -33,10 +39,10 @@ def init_args():
                         default=['css', 'js'],
                         help='过滤日志文件类型，默认过滤css和js文件.'
                         )
-    parser.add_argument('--url',
+    parser.add_argument('--ip',
                         type=str,
                         default=None,
-                        help='需要访问的URL')
+                        help='需要访问的ip')
     args, unparsed = parser.parse_known_args(sys.argv[1:])
     return args
 
@@ -46,8 +52,8 @@ def main():
     file_path = args.file_path
     report_type = args.report_type
     filter_types = args.filter_types
-    url = args.url
+    ip = args.ip
 
     dispaly_report = DisplayReport(file_path=file_path, report_type=report_type,  # noqa: E501
-                                   filter_types=filter_types, url=url)
+                                   filter_types=filter_types, ip=ip)
     dispaly_report.get()

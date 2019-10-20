@@ -9,7 +9,6 @@ def read_log_file(file_path):
     :return: 返回日志文件列表
     """
 
-    # TODO: 异常处理未做
     log_list = []
     mode = 'r+'
     with open(file_path, mode) as log_fp:

@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
+import re
+import logging
+
+import exc
 
 ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx']
+
+LOG = logging.getLogger(__name__)
 
 
 class ReportBase(object):
@@ -13,7 +19,16 @@ class ReportBase(object):
 # 文章报表
 class ArticleReports(ReportBase):
 
-    def __init__(self, log_list, url):
+    def __init__(self, log_list, ip):
+        assert ip
+
+        reg = '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$'  # noqa: E501
+        if not re.match(reg, ip):
+            LOG.error('IP format error, only support IPv4 format, your IP is: '
+                      '%s' % ip)
+            raise exc.IpFormatError('输入的IP：%s, IP格式错误，只支持IPv4格式'
+                                    % ip)
+        self.ip = ip
         super(ArticleReports, self).__init__(log_list=log_list)
 
     def _collect_article_reports(self):
