@@ -3,6 +3,8 @@ import re
 import logging
 
 import exc
+import utils
+import http
 
 ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx']
 
@@ -14,13 +16,15 @@ class ReportBase(object):
     def __init__(self, log_list):
         # 列表存放读取的单行日志，为字典结构[{'url':xxx},]
         self.log_list = log_list
+        self.reports = dict()
 
 
 # 文章报表
 class ArticleReports(ReportBase):
 
-    def __init__(self, log_list, ip):
-        assert ip
+    def __init__(self, log_list, ip=None):
+        if not isinstance(ip, basestring):
+            raise exc.IpTypeError(type(ip))
 
         reg = '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$'  # noqa: E501
         if not re.match(reg, ip):
@@ -30,6 +34,31 @@ class ArticleReports(ReportBase):
                                     % ip)
         self.ip = ip
         super(ArticleReports, self).__init__(log_list=log_list)
+
+    def _calculate_ip_num(self, report):
+        """
+            计算IP访问数
+        :param report:
+        :return:
+        """
+        for url, info in report.iteritems():
+            print info
+            info['ip_count'] = len(info['ip_set'])
+
+        return report
+
+    def _set_title(self, report):
+        endpoint = 'http://' + self.ip
+        http_client = http.HttpClient(endpoint)
+
+        for url, info in report.iteritems():
+            log_type = url.split('.')[-1]
+
+            if log_type == 'html' or log_type == 'htm':
+                content = http_client.get(url)
+                title = http.get_html_title(content)
+                info['title'] = title
+        return report
 
     def _collect_article_reports(self):
         """
@@ -58,24 +87,33 @@ class ArticleReports(ReportBase):
                                   'ip_set': ip_set, 'ip_count': 1}
                     report_dict.update({url: new_report})
 
-        # 计算IP访问数
-        for url, info in report_dict.iteritems():
-            info['ip_count'] = len(info['ip_set'])
-
         return report_dict
 
-    def article_report(self):
-        report_dict = self._collect_article_reports()
+    def _display(self):
         print "|URL|文章标题|访问人次|访问IP数|"
         print "|----|-------|-------|--------|"
-        for url, info in report_dict.iteritems():
+        for url, info in self.reports.iteritems():
             title = info.get('title')
             access_count = info.get('access_count', None)
             ip_count = info.get('ip_count', None)
             print "|{}|{}|{}|{}|".format(url, title, access_count, ip_count)
 
+    def get_reports(self):
+        # 1、收集文章报表
+        report_dict = self._collect_article_reports()
 
-# IP报表
+        # 2、计算文章报表IP访问数
+        report_dict = self._calculate_ip_num(report_dict)
+
+        # 3、获取文章title
+        report_dict = self._set_title(report_dict)
+
+        self.reports = report_dict
+
+        # 4、打印文章报表
+        self._display()
+
+
 class IPReports(ReportBase):
 
     def __init__(self, log_list):
@@ -111,14 +149,20 @@ class IPReports(ReportBase):
 
         return report_dict
 
-    def ip_report(self):
-        report_dict = self._collect_ip_reports()
+    def _display(self):
         print "|IP|访问次数|访问文章数|"
         print "|----|-------|--------|"
-        for ip, info in report_dict.iteritems():
+        for ip, info in self.reports.iteritems():
             access_count = info.get('access_count', None)
             article_count = info.get('article_count', None)
             print "|{}|{}|{}|".format(ip, access_count, article_count)
+
+    def get_reports(self):
+        # 1、获取IP报表
+        self.reports = self._collect_ip_reports()
+
+        # 2、打印IP报表
+        self._display()
 
 
 # 完整报表
@@ -137,7 +181,7 @@ class CompleteReports(ReportBase):
         for log in self.log_list:
             ip = log.get('ip')
             url = log.get('url')
-            ip_url = ip.join(url)
+            ip_url = ip + url
 
             # 如果字典里没有包含该IP，则创造个新的字典
             if ip_url in report_dict:
@@ -149,12 +193,48 @@ class CompleteReports(ReportBase):
 
         return report_dict
 
-    def complete_report(self):
-        report_dict = self._collect_complete_reports()
+    def _display(self):
         print "|IP|URL|访问次数|"
         print "|----|----|------|"
-        for ip_url, info in report_dict.iteritems():
+        for ip_url, info in self.reports.iteritems():
             ip = info.get('ip', None)
             url = info.get('url', None)
             access_count = info.get('access_count', None)
             print "|{}|{}|{}|".format(ip, url, access_count)
+
+    def get_reports(self):
+        # 1、收集完整报表
+        self.reports = self._collect_complete_reports()
+
+        # 2、打印完整报表
+        self._display()
+
+
+def _report(logs, report_type, ip=None):
+    assert logs
+    assert report_type
+
+    reports = None
+    if report_type == 'article-report':
+        reports = ArticleReports(logs, ip)
+    elif report_type == 'ip-report':
+        reports = IPReports(logs)
+    elif report_type == 'complete-report':
+        reports = CompleteReports(logs)
+    else:
+        LOG.error('The report type entered is: %s, which is not currently'
+                  ' supported.' % report_type)
+        raise exc.ReportTypeError('输入的报表类型是：%s，暂时不支持该类型' %
+                                  report_type)
+    return reports
+
+
+def display_report(file_path, report_type, filter_types=None, ip=None):
+    assert file_path
+    assert report_type
+
+    logs = utils.parse_log_file(file_path)
+    logs = utils.log_filter(logs, filter_types)
+
+    reports = _report(logs, report_type, ip)
+    reports.get_reports()

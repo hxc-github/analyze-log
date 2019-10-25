@@ -3,7 +3,7 @@ import argparse
 import sys
 import logging
 
-from display import DisplayReport
+from report import display_report
 
 logging.basicConfig(level=logging.INFO,
                     filename='analyze_log.log',
@@ -54,6 +54,5 @@ def main():
     filter_types = args.filter_types
     ip = args.ip
 
-    dispaly_report = DisplayReport(file_path=file_path, report_type=report_type,  # noqa: E501
-                                   filter_types=filter_types, ip=ip)
-    dispaly_report.get()
+    display_report(file_path=file_path, report_type=report_type,  # noqa: E501
+                   filter_types=filter_types, ip=ip)
