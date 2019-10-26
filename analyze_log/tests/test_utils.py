@@ -2,6 +2,7 @@
 import mock
 import sys
 import os
+from collections import Iterable
 
 from base import TestBase
 from analyze_log import utils
@@ -22,8 +23,16 @@ class TestUtils(TestBase):
                 )
     def test_parse_log_file_by_type(self, ):
         """测试是否是可迭代对象"""
+        act_log = ({
+            'content_length': '38093', 'code': '200',
+            'protocol': 'HTTP/1.1',
+            'url': '/coding/miniproject/material.html',
+            'ip': '200.200.76.130',
+            'datetime': '16/Feb/2019:11:27:20 +0800',
+            'method': 'GET'
+        },)
         logs = utils.parse_log_file(self.file_path)
-        self.assertIsInstance(logs, iter, '不是可迭代对象')
+        self.assertIsInstance(tuple(logs), Iterable, '不是可迭代对象')
 
     def test_log_filter(self):
         """测试滤除日志类型"""

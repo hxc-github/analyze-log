@@ -4,7 +4,7 @@ import report
 
 
 def main():
-    report.display_report('../log.txt', 'complete-report', [], '200.200.1.35')
+    report.display_report('../log.txt', 'article-report', [], '200.200.1.35')
     # parser_log = utils.Parser()
     # logs = parser_log.filter_log_by_type('../test.txt')
     #

@@ -53,6 +53,15 @@ log_list = [
         'method': 'GET'
     },
     {
+        'content_length': '38093',
+        'code': '200',
+        'protocol': 'HTTP/1.1',
+        'url': '/coding/miniproject/material.html',
+        'ip': '200.200.76.130',
+        'datetime': '16/Feb/2019:11:27:20 +0800',
+        'method': 'GET'
+    },
+    {
         'content_length': '1095',
         'code': '200',
         'protocol': 'HTTP/1.1',
@@ -122,51 +131,63 @@ article_report_no_ip_num = {
     }
 }
 
+ip_num_report = {
+    '/coding/miniproject/material.html': {
+        'ip_set': ['200.200.76.130', '200.200.76.132'],
+        'ip_count': 2,
+        'access_count': 2,
+        'title': ''
+    }
+}
 ip_report = {
     '177.1.81.42': {
-        'access_count': 3,
+        'access_count': 2,
         'article_count': 1
     },
     '200.200.76.130': {
-        'access_count': 37,
+        'access_count': 6,
         'article_count': 2
     }
 }
 
+title_report = {
+    '/coding/miniproject/material.html': {
+        'ip_set': (['200.200.76.130', '200.200.76.132']),
+        'ip_count': 2,
+        'access_count': 2,
+        'title': 'test analyze log'
+    }
+}
+
 complete_report = {
-    '177.1.81.42/designing/tools/image/UML_classes.docx': {
-        'url': '/designing/tools/image/UML_classes.docx',
-        'ip': '177.1.81.42',
+    '200.200.76.130/coding/gitbook/gitbook-plugin-disqus/plugin.css': {
+        'url': '/coding/gitbook/gitbook-plugin-disqus/plugin.css',
+        'ip': '200.200.76.130', 'access_count': 1
+    },
+    '177.1.81.42/designing/tools/image/gitbook/images/favicon.ico': {
+        'url': '/designing/tools/image/gitbook/images/favicon.ico',
+        'ip': '177.1.81.42', 'access_count': 1
+    },
+    '200.200.76.130/coding/miniproject/material.html': {
+        'url': '/coding/miniproject/material.html',
+        'ip': '200.200.76.130', 'access_count': 2
+    },
+    '200.200.76.130/coding/gitbook/gitbook-plugin-prism/prism-base16-ateliersulphurpool.light.css': {
+        'url': '/coding/gitbook/gitbook-plugin-prism/prism-base16-ateliersulphurpool.light.css',
+        'ip': '200.200.76.130',
         'access_count': 1
     },
-    '177.1.81.42/designing/tools/image/favicon.ico': {
-        'url': '/designing/tools/image/favicon.ico',
-        'ip': '177.1.81.42',
-        'access_count': 1
+    '200.200.76.130/coding/gitbook/gitbook-plugin-search-plus/search.css': {
+        'url': '/coding/gitbook/gitbook-plugin-search-plus/search.css',
+        'ip': '200.200.76.130', 'access_count': 1
     },
     '200.200.76.130/coding/gitbook/theme.js': {
         'url': '/coding/gitbook/theme.js',
         'ip': '200.200.76.130',
         'access_count': 1
     },
-    '200.200.76.130/coding/gitbook/gitbook-plugin-prism/prism-base16-ateliersulphurpool.light.css':{  # noqa: E501
-        'url': '/coding/gitbook/gitbook-plugin-prism/prism-base16-ateliersulphurpool.light.css',  # noqa: E501
-        'ip': '200.200.76.130',
-        'access_count': 1
-    },
-    '200.200.76.130/coding/gitbook/gitbook-plugin-disqus/plugin.css':{
-        'url': '/coding/gitbook/gitbook-plugin-disqus/plugin.css',
-        'ip': '200.200.76.130',
-        'access_count': 1
-    },
-    '200.200.76.130/coding/gitbook/gitbook-plugin-search-plus/search.css':{
-        'url': '/coding/gitbook/gitbook-plugin-search-plus/search.css',
-        'ip': '200.200.76.130',
-        'access_count': 1
-    },
-    '200.200.76.130/coding/miniproject/material.html':{
-        'url': '/coding/miniproject/material.html',
-        'ip': '200.200.76.130',
-        'access_count': 2
+    '177.1.81.42/designing/tools/image/UML_classes.docx': {
+        'url': '/designing/tools/image/UML_classes.docx',
+        'ip': '177.1.81.42', 'access_count': 1
     }
 }

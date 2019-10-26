@@ -57,7 +57,12 @@ class ArticleReports(ReportBase):
             log_type = url.split('.')[-1]
 
             if log_type == 'html' or log_type == 'htm':
-                content = http_client.get(url)
+                try:
+                    content = http_client.get(url)
+                except Exception:
+                    LOG.exception('HTTP请求失败')
+                    raise exc.HTTPError('HTTP请求失败')
+
                 title = http.get_html_title(content)
                 info['title'] = title
         return report
