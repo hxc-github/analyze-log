@@ -8,7 +8,7 @@ import http
 
 LOG = logging.getLogger(__name__)
 
-ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx']
+ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx', 'icon']
 
 IP = None
 
@@ -25,15 +25,6 @@ class ReportBase(object):
 class ArticleReports(ReportBase):
 
     def __init__(self, log_list):
-        if not isinstance(IP, basestring):
-            raise exc.IpTypeError(type(IP))
-
-        reg = '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$'  # noqa: E501
-        if not re.match(reg, IP):
-            LOG.error('IP format error, only support IPv4 format, your IP is: '
-                      '%s' % IP)
-            raise exc.IpFormatError('输入的IP：%s, IP格式错误，只支持IPv4格式'
-                                    % IP)
         self.ip = IP
         super(ArticleReports, self).__init__(log_list=log_list)
 
@@ -44,7 +35,6 @@ class ArticleReports(ReportBase):
         :return:
         """
         for url, info in report.iteritems():
-            print info
             info['ip_count'] = len(info['ip_set'])
 
         return report

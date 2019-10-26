@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-import mock
 import sys
 import os
+import mock
 
 from analyze_log import http
 from base import TestBase
-from analyze_log import exc
 import fake_data
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                 '..')))
+
+
+class Response(object):
+    content = 'test'
 
 
 class TestHttp(TestBase):
@@ -28,3 +31,10 @@ class TestHttp(TestBase):
         act_title = http.get_html_title(response)
         exp_title = ''
         self.assertEqual(act_title, exp_title, '获取title不一致')
+
+    @mock.patch('analyze_log.http.requests.get')
+    def test_http_get(self, get_mock):
+        get_mock.return_value = Response
+        act_content = http.HttpClient(self.endpoint).get(self.url)
+        exp_content = 'test'
+        self.assertEqual(act_content, exp_content, 'http get测试失败')

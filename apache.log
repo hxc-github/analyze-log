@@ -1,5 +1,4 @@
-200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/miniproject/material.html HTTP/1.1" 200 38093
-200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/miniproject/material.html HTTP/1.1" 200 38093
+200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/miniprj/material.html HTTP/1.1" 200 38093
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-search-plus/search.css HTTP/1.1" 200 1095
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-disqus/plugin.css HTTP/1.1" 200 63
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-prism/prism-base16-ateliersulphurpool.light.css HTTP/1.1" 200 3290
@@ -33,8 +32,9 @@
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-local-video/video.min.js HTTP/1.1" 200 278740
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-ace/ace/ace.js HTTP/1.1" 200 347010
 200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] "GET /coding/gitbook/gitbook-plugin-sharing/buttons.js HTTP/1.1" 200 2875
-200.200.76.130 - - [16/Feb/2019:11:27:21 +0800] "GET /coding/gitbook/fonts/fontawesome/fontawesome-webfont.woff2?v=4.6.3 HTTP/1.1" 200 71896::1 - - [16/Feb/2019:11:27:29 +0800] "OPTIONS * HTTP/1.0" 200 -
+200.200.76.130 - - [16/Feb/2019:11:27:21 +0800] "GET /coding/gitbook/fonts/fontawesome/fontawesome-webfont.woff2?v=4.6.3 HTTP/1.1" 200 71896
 200.200.76.130 - - [16/Feb/2019:11:28:16 +0800] "GET /coding/style/%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC.zip HTTP/1.1" 200 1733226
+::1 - - [16/Feb/2019:11:27:29 +0800] "OPTIONS * HTTP/1.0" 200 -
 177.1.81.42 - - [16/Feb/2019:11:28:49 +0800] "GET /designing/tools/image/favicon.ico HTTP/1.1" 404 1221
 177.1.81.42 - - [16/Feb/2019:11:28:49 +0800] "GET /designing/tools/image/gitbook/images/favicon.ico HTTP/1.1" 404 1221
 177.1.81.42 - - [16/Feb/2019:11:28:54 +0800] "GET /designing/tools/image/UML_classes.docx HTTP/1.1" 200 156676
