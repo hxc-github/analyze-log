@@ -25,7 +25,8 @@ class TestReport(TestBase):
             'ip_count': 2, 'access_count': 2, 'title': ''}
         }
 
-        article = report.ArticleReports([], self.ip)
+        report.IP = self.ip
+        article = report.ArticleReports([])
         self.assertIsInstance(article, type(report.ArticleReports),
                               '返回文章类错误')
 
@@ -42,7 +43,8 @@ class TestReport(TestBase):
             'ip_count': 2, 'access_count': 2, 'title': 'test analyze log'}
         }
 
-        article = report.ArticleReports([], self.ip)
+        report.IP = self.ip
+        article = report.ArticleReports([])
         self.assertIsInstance(article, type(report.ArticleReports),
                               '返回文章类错误')
 
@@ -51,7 +53,8 @@ class TestReport(TestBase):
 
     def test_collect_article_reports(self):
         """测试收集文章报表"""
-        article = report.ArticleReports(fake_data.log_list, self.ip)
+        report.IP = self.ip
+        article = report.ArticleReports(fake_data.log_list)
         self.assertIsInstance(article, type(report.ArticleReports),
                               '返回文章类错误')
         exp_report = fake_data.article_report_no_ip_num
@@ -60,7 +63,8 @@ class TestReport(TestBase):
 
     def test_article_display(self):
         """测试打印文章报表"""
-        article = report.ArticleReports(fake_data.log_list, self.ip)
+        report.IP = self.ip
+        article = report.ArticleReports(fake_data.log_list)
         self.assertIsInstance(article, type(report.ArticleReports),
                               '返回文章类错误')
         article.reports = fake_data.article_report_no_ip_num
@@ -70,13 +74,15 @@ class TestReport(TestBase):
     def test_article_ip_format_error(self):
         """测试文章报表传入IP格式不正确情况"""
         ip = 1.2
-        info = {'ip': ip, 'log_list': []}
+        report.IP = ip
+        info = {'log_list': []}
         self.assertRaises(exc.IpTypeError, report.ArticleReports, **info)
 
     def test_article_ip_type_error(self):
         """测试文章报表传入IP类型不正确情况"""
         ip = '1.1.1.1.1'
-        info = {'ip': ip, 'log_list': []}
+        report.IP = ip
+        info = {'log_list': []}
         self.assertRaises(exc.IpFormatError, report.ArticleReports, **info)
 
     def test_collect_ip_reports(self):

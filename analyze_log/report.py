@@ -6,9 +6,11 @@ import exc
 import utils
 import http
 
+LOG = logging.getLogger(__name__)
+
 ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx']
 
-LOG = logging.getLogger(__name__)
+IP = None
 
 
 class ReportBase(object):
@@ -22,17 +24,17 @@ class ReportBase(object):
 # 文章报表
 class ArticleReports(ReportBase):
 
-    def __init__(self, log_list, ip=None):
-        if not isinstance(ip, basestring):
-            raise exc.IpTypeError(type(ip))
+    def __init__(self, log_list):
+        if not isinstance(IP, basestring):
+            raise exc.IpTypeError(type(IP))
 
         reg = '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$'  # noqa: E501
-        if not re.match(reg, ip):
+        if not re.match(reg, IP):
             LOG.error('IP format error, only support IPv4 format, your IP is: '
-                      '%s' % ip)
+                      '%s' % IP)
             raise exc.IpFormatError('输入的IP：%s, IP格式错误，只支持IPv4格式'
-                                    % ip)
-        self.ip = ip
+                                    % IP)
+        self.ip = IP
         super(ArticleReports, self).__init__(log_list=log_list)
 
     def _calculate_ip_num(self, report):
@@ -210,29 +212,32 @@ class CompleteReports(ReportBase):
         self._display()
 
 
+REPORT_TYPES = {
+    'article-report': ArticleReports,
+    'ip-report': IPReports,
+    'complete-report': CompleteReports
+}
+
+
 def _report(logs, report_type, ip=None):
     assert logs
     assert report_type
 
-    reports = None
-    if report_type == 'article-report':
-        reports = ArticleReports(logs, ip)
-    elif report_type == 'ip-report':
-        reports = IPReports(logs)
-    elif report_type == 'complete-report':
-        reports = CompleteReports(logs)
+    if report_type in REPORT_TYPES:
+        return REPORT_TYPES[report_type](logs)
     else:
         LOG.error('The report type entered is: %s, which is not currently'
                   ' supported.' % report_type)
         raise exc.ReportTypeError('输入的报表类型是：%s，暂时不支持该类型' %
                                   report_type)
-    return reports
 
 
 def display_report(file_path, report_type, filter_types=None, ip=None):
     assert file_path
     assert report_type
+    global IP
 
+    IP = ip
     logs = utils.parse_log_file(file_path)
     logs = utils.log_filter(logs, filter_types)
 

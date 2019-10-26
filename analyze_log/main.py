@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import utils
 import report
-import display
 
 
 def main():
