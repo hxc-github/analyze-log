@@ -9,3 +9,4 @@ class TestBase(unittest.TestCase):
         self.ip = '200.200.1.35'
         self.endpoint = 'http://200.200.1.35'
         self.url = '/test'
+        self.ip_report_type = 'ip-report'

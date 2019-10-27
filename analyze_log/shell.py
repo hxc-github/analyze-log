@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
 import sys
-import logging
-
-from report import display_report
-
-logging.basicConfig(level=logging.INFO,
-                    filename='analyze_log.log',
-                    filemode='a',
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')  # noqa: E501
 
 
 def init_args():
@@ -42,17 +34,13 @@ def init_args():
     parser.add_argument('--ip',
                         type=str,
                         default=None,
-                        help='需要访问的ip')
+                        help='需要访问的ip'
+                        )
+    parser.add_argument('--func',
+                        type=str,
+                        default='report',
+                        choices=['report', 'title'],
+                        help='功能类型，默认获取报告'
+                        )
     args, unparsed = parser.parse_known_args(sys.argv[1:])
     return args
-
-
-def main():
-    args = init_args()
-    file_path = args.file_path
-    report_type = args.report_type
-    filter_types = args.filter_types
-    ip = args.ip
-
-    display_report(file_path=file_path, report_type=report_type,  # noqa: E501
-                   filter_types=filter_types, ip=ip)

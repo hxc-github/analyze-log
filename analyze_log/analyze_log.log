@@ -1,0 +1,34 @@
+2019-10-27 18:45:31,028 - report - ERROR - HTTPè¯·æ±‚å¤±è´¥
+Traceback (most recent call last):
+  File "F:\²Ö¿â\analyze-log\analyze_log\report.py", line 54, in _set_title
+    content = http_client.get(url)
+  File "F:\²Ö¿â\analyze-log\analyze_log\common\http.py", line 12, in get
+    res = requests.get(url, timeout=0.5)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\adapters.py", line 504, in send
+    raise ConnectTimeout(e, request=request)
+ConnectTimeout: HTTPConnectionPool(host='200.1.3.4', port=80): Max retries exceeded with url: /coding/miniprj/material.html (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x02D6B6B0>, 'Connection to 200.1.3.4 timed out. (connect timeout=0.5)'))
+2019-10-27 18:51:47,390 - report - ERROR - HTTPè¯·æ±‚å¤±è´¥
+Traceback (most recent call last):
+  File "F:\²Ö¿â\analyze-log\analyze_log\report.py", line 54, in _set_title
+    content = http_client.get(url)
+  File "F:\²Ö¿â\analyze-log\analyze_log\common\http.py", line 12, in get
+    res = requests.get(url, timeout=0.5)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "F:\Software\Python\Python2.7.16\lib\site-packages\requests\adapters.py", line 504, in send
+    raise ConnectTimeout(e, request=request)
+ConnectTimeout: HTTPConnectionPool(host='200.1.3.4', port=80): Max retries exceeded with url: /coding/miniprj/material.html (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x02C5B670>, 'Connection to 200.1.3.4 timed out. (connect timeout=0.5)'))

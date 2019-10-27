@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import requests
-import re
 
 
 class HttpClient(object):
@@ -12,13 +11,3 @@ class HttpClient(object):
         url = self.endpoint + url
         res = requests.get(url, timeout=0.5)
         return res.content
-
-
-def get_html_title(response):
-    # 正则表达式匹配标题
-    pat = r'<title>(?P<title>.*?)</title>'
-    res = re.search(pat, str(response))
-    if not res:
-        return ''
-    title = res.groupdict()['title']
-    return title

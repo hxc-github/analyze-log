@@ -19,3 +19,7 @@ class IpTypeError(LogExceptionBase):
 
 class HTTPError(LogExceptionBase):
     pass
+
+
+class FuncDontSupport(LogExceptionBase):
+    pass

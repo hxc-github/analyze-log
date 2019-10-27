@@ -1,46 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
 import functools
-
-LOG_PARSERS = []
-
-
-def parse_log_file(file_path):
-    """
-        解析日志文件
-    :param file_path: 日志文件路径
-    :type file_path: string
-    :return:日志信息生成器
-    """
-
-    with open(file_path, 'r') as log_fp:
-        for log in log_fp:
-            yield _parse_log(log)
-
-
-def _parse_log(text):
-
-    for parser in LOG_PARSERS:
-        res = parser(text)
-        if res:
-            return res
-
-
-def _parser_log_by_ipv4(text):
-
-    reg = r'(?P<ip>\d+\.\d+\.\d+\.\d+) - -\s+' \
-          r'\[(?P<datetime>\S+\s\S+)\]\s+' \
-          r'"(?P<method>\w+)\s+' \
-          r'(?P<url>\B/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*)\s+' \
-          r'(?P<protocol>HTTP\S+)"\s+' \
-          r'(?P<code>\d+)\s' \
-          r'(?P<content_length>\d+)'
-    res = re.match(reg, text)
-    if res:
-        return res.groupdict()
-
-
-LOG_PARSERS.append(_parser_log_by_ipv4)
 
 
 def _filter_func_by_type(log, filter_types):

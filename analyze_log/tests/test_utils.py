@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import mock
 import sys
 import os
-from collections import Iterable
 
 from base import TestBase
-from analyze_log import utils
+from analyze_log.common import utils
 import fake_data
+from analyze_log.common import contants
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                 '..')))
@@ -17,29 +16,28 @@ class TestUtils(TestBase):
     def setUp(self):
         super(TestUtils, self).setUp()
 
-    @mock.patch('analyze_log.utils.open', mock.mock_open(
-        read_data='200.200.76.130 - - [16/Feb/2019:11:27:20 +0800] '
-                  '"GET /coding/miniproject/material.html HTTP/1.1" 200 38093')
-                )
-    def test_parse_log_file_by_type(self, ):
-        """测试是否是可迭代对象"""
-        act_log = ({
-            'content_length': '38093', 'code': '200',
-            'protocol': 'HTTP/1.1',
-            'url': '/coding/miniproject/material.html',
-            'ip': '200.200.76.130',
-            'datetime': '16/Feb/2019:11:27:20 +0800',
-            'method': 'GET'
-        },)
-        logs = utils.parse_log_file(self.file_path)
-        self.assertIsInstance(tuple(logs), Iterable, '不是可迭代对象')
+    def test_get_html_title_succeed(self):
+        response = fake_data.title
+        act_title = utils.get_html_title(response)
+        exp_title = 'test analyze log'
+        self.assertEqual(act_title, exp_title, '获取title失败')
 
-    def test_log_filter(self):
-        """测试滤除日志类型"""
-        exp_log = [fake_data.log_dict_html]
-        log_list = list()
-        log_list.append(fake_data.log_dict_css)
-        log_list.append(fake_data.log_dict_html)
-        log_gen = (log for log in log_list)
-        logs = utils.log_filter(log_gen)
-        self.assertListEqual(logs, exp_log, '日志滤除失败')
+    def test_get_html_title_fail(self):
+        response = 'test'
+        act_title = utils.get_html_title(response)
+        exp_title = ''
+        self.assertEqual(act_title, exp_title, '获取title不一致')
+
+    def test_transform_to_list(self):
+        report_dict = fake_data.ip_report
+        report_type = self.ip_report_type
+        act_report = utils.transform_to_list(report_dict, report_type)
+        exp_report = fake_data.ip_attrs
+        self.assertListEqual(act_report, exp_report)
+
+    def test_display_by_markdown(self):
+        table_name = 'table'
+        attr_names = contants.ARTICLE_REPORT_ATTRS_DISPLAY
+        attrs = fake_data.ip_attrs
+        act = utils.display_by_markdown(table_name, attr_names, attrs)
+        self.assertIsNone(act)

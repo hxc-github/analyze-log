@@ -51,7 +51,7 @@
 |177.1.81.42|/designing/tools/image/gitbook/images/favicon.ico|1|
 |177.1.81.42|/designing/tools/image/UML_classes.docx|1|
 
-# 二、执行单侧
+# 二、执行单测
 
 ## 1、Linux环境：
 	①下载安装requests库，可用pip install requests命令安装
@@ -61,4 +61,8 @@
 	⑤将analyze-log文件放入Linux目录下
 	⑥进入analyze-log目录
 	⑦执行pytest --cov ./ 命令，将执行单元测试，并生成覆盖率信息
+
+# 三、单测结果
+
+<img src="./cover.png" style="zoom:70%" />
 
