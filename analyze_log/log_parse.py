@@ -42,4 +42,7 @@ def parse_log_file(file_path, ip_type=None):
     ip_type = 'IPv4' if ip_type is None else ip_type
     with open(file_path, 'r') as log_fp:
         for log in log_fp:
-            yield _parse_log(log, ip_type)
+            log_dict = _parse_log(log, ip_type)
+            if not log_dict:
+                continue
+            yield log_dict

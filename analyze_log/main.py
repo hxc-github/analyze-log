@@ -8,6 +8,8 @@ import exc
 from shell import init_args
 from common import utils
 from common import contants
+from common.contants import DB_NAME
+import title
 
 logging.basicConfig(level=logging.INFO,
                     filename='analyze_log.log',
@@ -24,11 +26,12 @@ def main():
     func = args.func
 
     logs = log_parse.parse_log_file(args.file_path)
-    logs = log_filter.log_filter(logs, args.filter_types)
 
     if func == 'report':
+        # 过滤报表，滤除不需要的报表内容
+        log_list = log_filter.log_filter(logs, args.filter_types)
         # 获取报表对象
-        reports = report.get_report_obj(logs, report_type)
+        reports = report.get_report_obj(log_list, report_type, ip=ip)
         # 获取相应类型报表内容
         report_dict = reports.gen_reports()
         # 将报表类型转换为列表
@@ -39,12 +42,19 @@ def main():
                                   display_attrs
                                   )
     elif func == 'title':
-        pass
+        keep_title = title.KeepTitle(DB_NAME, logs, ip)
+        keep_title.keep_title_to_sql()
     else:
         LOG.error('Don\'t support (%s) function')
         raise exc.FuncDontSupport('目前不支持（%s）功能' % func)
 
 
 if __name__ == '__main__':
+    # main()
+    # import sys
+    # sys.argv.append('--file-path=../apache.log')
+    # sys.argv.append('--report-type=ip-report')
+    # sys.argv.append('--func=title')
+    # sys.argv.append('--ip=1.1.1.1')
     main()
 

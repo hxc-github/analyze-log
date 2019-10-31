@@ -31,3 +31,9 @@ REPORT_NAME = {
 }
 
 ARTICLE_TYPES = ['htm', 'html', 'pdf', 'doc', 'docx']
+
+PAGE_FILE_TYPES = ['htm', 'html']
+
+DB_NAME = 'analyze-log.db'
+
+TITLE_TABLE_NAME = 'title'

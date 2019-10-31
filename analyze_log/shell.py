@@ -13,18 +13,18 @@ def init_args():
                         required=True,
                         help='日志文件路径'
                         )
+
+    # 可选参数
     parser.add_argument('--report-type',
                         type=str,
                         choices=['article-report', 'ip-report',
                                  'complete-report'],
                         default='complete-report',
-                        required=True,
                         help='\r\n%(prog)s 参数选定报表类型, 默认: complete-report.\n' # noqa:E501
                              'article-report: 文章报表.\n'
                              'ip-report: IP报表.\n'
                              'complete-report： 完整报表.\n'
                         )
-    # 可选参数
     parser.add_argument('--filter-types',
                         type=str,
                         nargs='*',

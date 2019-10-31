@@ -3,13 +3,12 @@ import logging
 from abc import abstractmethod
 
 import exc
-from common import http
-from common import utils
 from common import contants
+from common.contants import DB_NAME
+from common.contants import PAGE_FILE_TYPES
+import title
 
 LOG = logging.getLogger(__name__)
-
-IP = '200.1.3.4'
 
 
 class ReportBase(object):
@@ -27,8 +26,9 @@ class ReportBase(object):
 # 文章报表
 class ArticleReports(ReportBase):
 
-    def __init__(self, log_list):
-        self.ip = IP
+    def __init__(self, log_list, ip):
+        self.ip = ip
+        self.sql = title.TitleSql(DB_NAME)
         super(ArticleReports, self).__init__(log_list=log_list)
 
     def _calculate_ip_num(self, report):
@@ -43,21 +43,11 @@ class ArticleReports(ReportBase):
         return report
 
     def _set_title(self, report):
-        endpoint = 'http://' + self.ip
-        http_client = http.HttpClient(endpoint)
-
         for url, info in report.iteritems():
-            log_type = url.split('.')[-1]
-
-            if log_type == 'html' or log_type == 'htm':
-                try:
-                    content = http_client.get(url)
-                except Exception:
-                    LOG.exception('HTTP请求失败')
-                    raise exc.HTTPError('HTTP请求失败')
-
-                title = utils.get_html_title(content)
-                info['title'] = title
+            if url.split('.')[-1] not in PAGE_FILE_TYPES:
+                info['title'] = 'No title'
+                continue
+            info['title'] = self.sql.read_table(self.ip, url)
         return report
 
     def _collect_article_reports(self):
@@ -175,11 +165,14 @@ REPORT_TYPES = {
 }
 
 
-def get_report_obj(logs, report_type):
+def get_report_obj(logs, report_type, **kwargs):
     assert logs
     assert report_type
 
-    if report_type in REPORT_TYPES:
+    if report_type == 'article-report':
+        ip = kwargs.get('ip', None)
+        return ArticleReports(logs, ip)
+    elif report_type in REPORT_TYPES:
         return REPORT_TYPES[report_type](logs)
     else:
         LOG.error('The report type entered is: %s, which is not currently'
