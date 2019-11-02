@@ -9,5 +9,5 @@ class HttpClient(object):
 
     def get(self, url):
         url = self.endpoint + url
-        res = requests.get(url, timeout=0.5)
+        res = requests.get(url, timeout=2)
         return res.content

@@ -47,7 +47,7 @@ class ArticleReports(ReportBase):
             if url.split('.')[-1] not in PAGE_FILE_TYPES:
                 info['title'] = 'No title'
                 continue
-            info['title'] = self.sql.read_table(self.ip, url)
+            info['title'] = self.sql.read_title(self.ip, url)
         return report
 
     def _collect_article_reports(self):

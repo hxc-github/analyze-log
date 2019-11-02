@@ -113,7 +113,7 @@ log_list = [
         'ip': '177.1.81.42',
         'datetime': '16/Feb/2019:11:28:54 +0800',
         'method': 'GET'
-    }
+    },
 ]
 
 article_report_no_ip_num = {
@@ -164,7 +164,7 @@ title_report = {
         'ip_count': 1,
         'access_ip_num': 2,
         'access_count': 2,
-        'title': 'test analyze log'
+        'title': 'No title'
     }
 }
 
@@ -202,4 +202,25 @@ complete_report = {
         'ip': '177.1.81.42',
         'visitors': 1
     }
+}
+
+
+class ReadTitle():
+
+    def fetchone(self):
+        return ('title test',)
+
+
+class ReadTitleError():
+
+    pass
+
+
+log_no_url = {
+    'content_length': '38093',
+    'code': '200',
+    'protocol': 'HTTP/1.1',
+    'ip': '200.200.76.130',
+    'datetime': '16/Feb/2019:11:27:20 +0800',
+    'method': 'GET'
 }

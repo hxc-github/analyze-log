@@ -21,8 +21,7 @@ class TestReport(TestBase):
         """测试计算IP访问数"""
         reports = fake_data.article_report_dict
         exp_report = fake_data.ip_num_report
-        report.IP = self.ip
-        article = report.ArticleReports([])
+        article = report.ArticleReports([], self.ip)
         self.assertIsInstance(article, report.ArticleReports, '返回文章类错误')
         act_report = article._calculate_ip_num(reports)
         self.assertDictEqual(act_report, exp_report, '计算访问数错误')
@@ -33,26 +32,14 @@ class TestReport(TestBase):
         res_mock.return_value = fake_data.title
         reports = fake_data.article_report_dict
         exp_report = fake_data.title_report
-        report.IP = self.ip
-        article = report.ArticleReports([])
+        article = report.ArticleReports([], self.ip)
         self.assertIsInstance(article, report.ArticleReports, '返回文章类错误')
         act_report = article._set_title(reports)
         self.assertDictEqual(act_report, exp_report, '设置标题失败')
 
-    @mock.patch('analyze_log.common.http.HttpClient.get')
-    def test_set_title_error(self, res_mock):
-        """测试设置标题"""
-        res_mock.side_effect = Exception()
-        info = {'report': fake_data.article_report_dict}
-        report.IP = self.ip
-        article = report.ArticleReports([])
-        self.assertIsInstance(article, report.ArticleReports, '返回文章类错误')
-        self.assertRaises(exc.HTTPError, article._set_title, **info)
-
     def test_collect_article_reports(self):
         """测试收集文章报表"""
-        report.IP = self.ip
-        article = report.ArticleReports(fake_data.log_list)
+        article = report.ArticleReports(fake_data.log_list, self.ip)
         self.assertIsInstance(article, report.ArticleReports, '返回文章类错误')
         exp_report = fake_data.article_report_no_ip_num
         act_report = article._collect_article_reports()
