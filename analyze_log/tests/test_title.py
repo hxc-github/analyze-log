@@ -2,14 +2,11 @@
 import sys
 import os
 import mock
-from sqlalchemy.exc import IntegrityError
 
 from base import TestBase
 from analyze_log import title
 from analyze_log import exc
-from analyze_log.common import utils
 import fake_data
-from analyze_log.common import contants
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                 '..')))
@@ -96,6 +93,4 @@ class TestTitle(TestBase):
         self.assertIsNone(act_res)
 
     def tearDown(self):
-        # if os.path.exists('test.db'):
-        pass
-        #os.system('rm -rf ../test.db')
+        os.system('rm -rf ../test.db')

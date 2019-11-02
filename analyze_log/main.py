@@ -50,11 +50,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
-    # import sys
-    # sys.argv.append('--file-path=../apache.log')
-    # sys.argv.append('--report-type=ip-report')
-    # sys.argv.append('--func=title')
-    # sys.argv.append('--ip=1.1.1.1')
     main()
-

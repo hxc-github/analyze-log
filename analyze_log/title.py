@@ -11,14 +11,14 @@ import exc
 
 LOG = logging.getLogger(__name__)
 
-WRITE_CMD = 'INSERT INTO title (ip,url,title) SELECT ("{0}", "{1}", "{2}");'
+WRITE_CMD = 'INSERT INTO title (ip,url,title) VALUES ("{0}", "{1}", "{2}");'
 
 READ_CMD = 'SELECT title FROM {0} WHERE ip="{1}"  AND url="{2}";'
 
 CREAD_TABLE_CMD = 'CREATE TABLE {0}' \
             '(ip CHAR(20),' \
             'url CHAR(50) ,' \
-            'title VARCHAR(100);'
+            'title VARCHAR(100));'
 
 DEL_TABLE_CMD = 'DROP TABLE IF EXISTS {0}'
 
@@ -42,7 +42,7 @@ class TitleSql(sql.SqlBase):
         self._create_table()
 
     def write_table(self, ip, url, title):
-        write_cmd = WRITE_CMD.format(ip, url, title, ip, url)
+        write_cmd = WRITE_CMD.format(ip, url, title)
         try:
             self._exec_cmd(write_cmd)
         except IntegrityError:

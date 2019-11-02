@@ -27,6 +27,8 @@ class ReportBase(object):
 class ArticleReports(ReportBase):
 
     def __init__(self, log_list, ip):
+        assert ip
+        assert isinstance(log_list, list)
         self.ip = ip
         self.sql = title.TitleSql(DB_NAME)
         super(ArticleReports, self).__init__(log_list=log_list)
@@ -68,7 +70,6 @@ class ArticleReports(ReportBase):
                 if url in report_dict:
                     report_dict[url]['visitors'] += 1
                     report_dict[url]['ip_set'].add(ip)
-
                 else:
                     ip_set = {ip}
 
